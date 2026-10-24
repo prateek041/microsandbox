@@ -539,7 +539,8 @@ impl ExecSink {
     }
 
     /// Write data to the process's stdin, waiting until all bytes have been sent.
-    /// Empty data is a no-op, never EOF; use [`close`](Self::close) to send EOF.
+    /// Empty data is a no-op, never EOF. Call [`close`](Self::close) when done writing; in pipe
+    /// mode it sends EOF.
     /// A cancelled write may have queued a prefix that is still delivered.
     pub async fn write(&self, data: impl AsRef<[u8]>) -> MicrosandboxResult<()> {
         let data = data.as_ref();
